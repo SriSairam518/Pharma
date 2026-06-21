@@ -20,7 +20,7 @@ import axios from 'axios';
 // When you run Spring Boot locally it starts on port 8080.
 // We use an environment variable so this is easy to change
 // for production without editing code.
-const BASE_URL = import.meta.env.VITE_URL;
+const BASE_URL = import.meta.env.VITE_URL + "/api";
 
 // Create an axios "instance" with shared settings.
 // Every API call you make will automatically include these.

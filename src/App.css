@@ -7,44 +7,6 @@
    APP LAYOUT
    Two-column grid: fixed sidebar + scrollable main
    ---------------------------------------------------------------- */
-
-/* ================================================================
-   App.css — Component Styles
-   Laptop-first design | Outfit font | Clean medical-green theme
-   ================================================================ */
-
-/* ----------------------------------------------------------------
-   APP LAYOUT
-   Two-column grid: fixed sidebar + scrollable main
-   ---------------------------------------------------------------- */
-/* ================================================================
-   App.css — Component Styles
-   Laptop-first design | Outfit font | Clean medical-green theme
-   ================================================================ */
-
-/* ----------------------------------------------------------------
-   APP LAYOUT
-   Two-column grid: fixed sidebar + scrollable main
-   ---------------------------------------------------------------- */
-
-/* ================================================================
-   App.css — Component Styles
-   Laptop-first design | Outfit font | Clean medical-green theme
-   ================================================================ */
-
-/* ----------------------------------------------------------------
-   APP LAYOUT
-   Two-column grid: fixed sidebar + scrollable main
-   ---------------------------------------------------------------- */
-/* ================================================================
-   App.css — Component Styles
-   Laptop-first design | Outfit font | Clean medical-green theme
-   ================================================================ */
-
-/* ----------------------------------------------------------------
-   APP LAYOUT
-   Two-column grid: fixed sidebar + scrollable main
-   ---------------------------------------------------------------- */
 .app-layout {
   display: grid;
   grid-template-columns: var(--sidebar-w) 1fr;
@@ -1960,4 +1922,329 @@
   color: var(--text-3);
   text-align: center;
   padding: var(--s3);
+}
+
+/* ================================================================
+   MOBILE TOP BAR
+   ================================================================ */
+.mobile-topbar {
+  display: none;   /* hidden by default — shown only on mobile below */
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-xs);
+}
+
+.mobile-topbar__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: 12px var(--s4);
+  cursor: pointer;
+}
+
+.mobile-topbar__logo {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--primary) 0%, #2aa882 100%);
+  color: white;
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mobile-topbar__title {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.mobile-topbar__app-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-1);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.mobile-topbar__current-page {
+  font-size: 11px;
+  color: var(--text-3);
+  font-weight: 500;
+}
+
+.mobile-topbar__chevron {
+  color: var(--text-3);
+  transition: transform var(--t-fast);
+  flex-shrink: 0;
+}
+.mobile-topbar__chevron--open { transform: rotate(180deg); }
+
+.mobile-topbar__backdrop {
+  position: fixed;
+  inset: 0;
+  top: 56px; /* below the top bar itself */
+  background: rgba(0,0,0,0.3);
+  z-index: 48;
+  animation: fadeIn 150ms ease both;
+}
+
+.mobile-topbar__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  z-index: 49;
+  animation: fadeUp 180ms ease both;
+  max-height: calc(100vh - 56px);
+  overflow-y: auto;
+}
+
+.mobile-topbar__link {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: 14px var(--s5);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-2);
+  border-bottom: 1px solid var(--border);
+  transition: background var(--t-fast);
+}
+.mobile-topbar__link:active { background: var(--bg-surface-3); }
+
+.mobile-topbar__link--active {
+  background: var(--primary-light);
+  color: var(--primary);
+  font-weight: 600;
+  box-shadow: inset 3px 0 0 var(--primary);
+}
+
+/* ================================================================
+   MOBILE BREAKPOINT — comprehensive pass over every component
+   Applies at 640px and below (phones in portrait, most common
+   for your parents' use case)
+   ================================================================ */
+@media (max-width: 640px) {
+
+  /* ---- Layout: switch from sidebar to top bar ---- */
+  :root { --sidebar-w: 0px; }
+
+  .app-layout {
+    grid-template-columns: 1fr;
+    display: block;
+  }
+
+  .sidebar { display: none; }
+  .mobile-topbar { display: block; }
+
+  .app-main {
+    background-image: none; /* drop the dot-grid texture — busy on small screens */
+  }
+
+  /* ---- Page shell ---- */
+  .page {
+    padding: var(--s4) var(--s4) var(--s8);
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--s3);
+  }
+
+  .page-header__left { gap: var(--s2); }
+
+  .page-title { font-size: 20px; }
+  .page-subtitle { font-size: 13px; }
+
+  .page-header__actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  /* ---- Buttons: full width primary action on mobile forms ---- */
+  .form-actions {
+    flex-direction: column-reverse;
+    gap: var(--s2);
+  }
+  .form-actions .btn { width: 100%; }
+
+  /* ---- Search bar ---- */
+  .search-bar__input { max-width: 100%; }
+
+  /* ---- Agency grid: single column ---- */
+  .agency-grid { grid-template-columns: 1fr; }
+
+  .agency-card { padding: var(--s4); }
+  .agency-card__name { max-width: 140px; }
+
+  /* Always show action buttons on mobile — no hover state available */
+  .agency-card__actions {
+    opacity: 1;
+    transform: none;
+  }
+  .agency-card__cta { opacity: 1; }
+
+  /* ---- Summary bar: 2 columns instead of 4 in a row ---- */
+  .summary-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s3);
+  }
+  .stat-card { min-width: 0; padding: var(--s3) var(--s4); }
+  .stat-card--count { grid-column: span 2; flex-direction: row; align-items: center; }
+  .stat-card__value { font-size: 16px; }
+
+  /* ---- Date filter bar: wrap nicely ---- */
+  .date-filter-bar__quick { gap: 6px; }
+  .filter-chip { padding: 6px 12px; font-size: 12px; }
+  .date-filter-bar__custom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--s2);
+  }
+  .date-filter-bar__custom .btn { width: 100%; }
+
+  /* ---- Bill cards ---- */
+  .bill-card { padding: var(--s4); }
+  .bill-card__amounts {
+    gap: var(--s4);
+    flex-wrap: wrap;
+  }
+  .bill-card__amount-value { font-size: 14px; }
+  .bill-card__footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--s3);
+  }
+  .bill-card__actions {
+    justify-content: flex-end;
+  }
+
+  /* ---- Modals: near full-screen on mobile ---- */
+  .modal-backdrop { padding: var(--s2); align-items: flex-end; }
+  .modal {
+    max-width: 100%;
+    width: 100%;
+    max-height: 92vh;
+    border-radius: var(--r-xl) var(--r-xl) 0 0; /* bottom sheet style */
+  }
+  .modal--sm, .modal--md, .modal--lg { max-width: 100%; }
+
+  .modal-header { padding: var(--s4) var(--s5); }
+  .modal-title { font-size: 16px; }
+  .modal-body { padding: var(--s4); }
+
+  /* ---- Forms inside modals ---- */
+  .form-row { grid-template-columns: 1fr; gap: var(--s3); }
+  .bill-form__meta { grid-template-columns: 1fr; }
+  .bill-summary-grid { grid-template-columns: 1fr 1fr; gap: var(--s3); padding: var(--s4); }
+  .bill-summary-readonly { grid-template-columns: 1fr 1fr; gap: var(--s2); padding: var(--s3); }
+
+  /* ---- Tables: explicit horizontal scroll with a visible hint ---- */
+  .editable-table-wrap,
+  .bill-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    /* subtle shadow on the right edge hints "more content this way" */
+    background:
+            linear-gradient(to right, var(--bg-surface) 30%, rgba(255,255,255,0)),
+            linear-gradient(to right, rgba(255,255,255,0), var(--bg-surface) 70%) right,
+            linear-gradient(to right, rgba(0,0,0,0.06), rgba(255,255,255,0)),
+            linear-gradient(to left, rgba(0,0,0,0.06), rgba(255,255,255,0)) right;
+    background-repeat: no-repeat;
+    background-size: 24px 100%, 24px 100%, 8px 100%, 8px 100%;
+    background-attachment: local, local, scroll, scroll;
+  }
+
+  .pharma-table th, .pharma-table td {
+    padding: var(--s2);
+    font-size: 12px;
+  }
+  .pharma-table .table-input--xs { min-width: 56px; }
+
+  /* ---- Upload zone ---- */
+  .upload-zone { padding: var(--s8) var(--s4); }
+  .upload-zone__title { font-size: 15px; }
+
+  /* ---- Scanning state ---- */
+  .scanning-state__bar { width: 100%; max-width: 240px; }
+
+  /* ---- Payment modal ---- */
+  .discount-type-row { flex-direction: column; }
+  .discount-type-btn { width: 100%; justify-content: center; }
+  .discount-input-wrap { flex-wrap: wrap; }
+
+  .mark-fully-paid-btn { font-size: 13px; padding: 11px; }
+  .mark-fully-paid-hint { font-size: 11px; }
+
+  /* ---- Payment detail / history ---- */
+  .payment-detail__hero-amount { font-size: 24px; }
+  .payment-history__item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s2);
+  }
+
+  /* ---- Confirm dialog ---- */
+  .confirm-dialog__actions { flex-direction: column-reverse; gap: var(--s2); }
+  .confirm-dialog__actions .btn { width: 100%; }
+
+  /* ---- Image viewer ---- */
+  .image-viewer__toolbar { padding: var(--s2) var(--s3); }
+  .image-viewer__title { font-size: 12px; }
+  .image-viewer__content { padding: var(--s3); }
+
+  /* ---- Empty / error states ---- */
+  .empty-state__title { font-size: 16px; }
+  .empty-state__description { font-size: 13px; }
+  .state-container { padding: var(--s8) var(--s3); }
+
+  /* ---- Skeleton loading grid ---- */
+  .loading-grid { grid-template-columns: 1fr; }
+}
+
+/* ================================================================
+   VERY SMALL PHONES (≤ 380px) — a few extra tightenings
+   ================================================================ */
+@media (max-width: 380px) {
+  .page { padding: var(--s3) var(--s3) var(--s8); }
+  .page-title { font-size: 18px; }
+  .summary-bar { grid-template-columns: 1fr; }
+  .stat-card--count { grid-column: span 1; }
+  .bill-summary-grid { grid-template-columns: 1fr; }
+  .bill-summary-readonly { grid-template-columns: 1fr; }
+}
+
+/* ================================================================
+   iOS SAFARI FIX — prevent auto-zoom on input focus
+   Safari zooms the whole page in when a focused input has a
+   font-size below 16px. This makes typing in our forms (Add
+   agency, Pay bill, etc.) feel broken — the page jumps and zooms
+   every time. Forcing 16px on mobile inputs fixes this completely.
+   ================================================================ */
+@media (max-width: 640px) {
+  .form-input,
+  .form-textarea,
+  .search-bar__input,
+  .table-input,
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="search"] {
+    font-size: 16px !important;
+  }
 }

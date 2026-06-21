@@ -1,13 +1,29 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+  <!--
+    CRITICAL FOR MOBILE:
+    width=device-width    → page width matches the phone's screen width
+    initial-scale=1.0     → no zoomed-out view on load
+    maximum-scale=1.0     → prevents accidental pinch-zoom messing up layout
+                             (still allows users to zoom if truly needed via
+                             accessibility settings — we don't disable zoom
+                             entirely, just prevent the default zoomed view)
+    Without this tag, mobile browsers render the page at desktop width
+    (~980px) and shrink it to fit — text becomes tiny and unreadable.
+  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+
+  <!-- Theme color for mobile browser chrome (Android Chrome status bar) -->
+  <meta name="theme-color" content="#1a7a5e" />
+
+  <title>PharmaMS — Medical Shop Inventory</title>
+</head>
+<body>
+<div id="root"></div>
+<script type="module" src="/src/main.jsx"></script>
+</body>
 </html>
