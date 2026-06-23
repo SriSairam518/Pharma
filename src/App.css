@@ -7,6 +7,155 @@
    APP LAYOUT
    Two-column grid: fixed sidebar + scrollable main
    ---------------------------------------------------------------- */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s6) var(--s4);
+  background: var(--bg-base);
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: var(--s8) var(--s7);
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 300ms ease both;
+}
+
+/* ---- Logo block ---- */
+.auth-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  margin-bottom: var(--s7);
+}
+
+.auth-logo__icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--primary) 0%, #2aa882 100%);
+  color: white;
+  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.auth-logo__name {
+  font-size: 20px;
+  font-weight: 750;
+  color: var(--text-1);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.auth-logo__sub {
+  font-size: 12px;
+  color: var(--text-3);
+  font-weight: 500;
+  margin-top: 1px;
+}
+
+/* ---- Title + description ---- */
+.auth-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-1);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--s6);
+}
+
+.auth-desc {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: var(--s5);
+}
+
+/* ---- Password input with eye toggle ---- */
+.auth-input-wrap {
+  position: relative;
+}
+
+.auth-input-wrap .form-input {
+  padding-right: 40px;
+}
+
+.auth-eye-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-3);
+  padding: 4px;
+  border-radius: var(--r-sm);
+  transition: color var(--t-fast);
+  cursor: pointer;
+}
+
+.auth-eye-btn:hover { color: var(--text-1); }
+
+/* ---- Forgot password link ---- */
+.auth-forgot {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -8px;
+  margin-bottom: var(--s4);
+}
+
+.auth-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: opacity var(--t-fast);
+}
+.auth-link:hover { opacity: 0.75; }
+
+.auth-back {
+  margin-top: var(--s5);
+  text-align: center;
+}
+
+/* ---- Success state ---- */
+.auth-success {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s3);
+}
+
+.auth-success__icon {
+  width: 64px;
+  height: 64px;
+  background: var(--primary-light);
+  border-radius: var(--r-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  margin-bottom: var(--s2);
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 640px) {
+  .auth-card {
+    padding: var(--s6) var(--s5);
+    border-radius: var(--r-xl);
+  }
+}
+
 .app-layout {
   display: grid;
   grid-template-columns: var(--sidebar-w) 1fr;

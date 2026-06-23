@@ -1,4 +1,5 @@
 // src/App.jsx — with auth routes, protected routes, and backend wake-up ping
+import './App.css'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { useEffect } from 'react';
