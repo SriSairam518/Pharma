@@ -18,7 +18,7 @@ const DashboardPage = () => <div className="page"><h1 className="page-title">Das
 const InventoryPage = () => <div className="page"><h1 className="page-title">Inventory</h1><p className="page-subtitle">Coming soon</p></div>;
 const IncomePage    = () => <div className="page"><h1 className="page-title">Income</h1><p className="page-subtitle">Coming soon</p></div>;
 
-const BACKEND_URL = import.meta.env.VITE_URL;
+const BACKEND_URL = (import.meta.env.VITE_URL).replace('/api', '');
 
 const App = () => {
 
