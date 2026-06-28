@@ -1,18 +1,3 @@
-// ============================================================
-// src/pages/AgencyBillsPage.jsx
-//
-// Opens when user clicks an agency card.
-// Shows: agency name, summary totals, date filter bar,
-//        list of bills, pay modal, bill detail modal.
-// ============================================================
-
-// ============================================================
-// src/pages/AgencyBillsPage.jsx
-//
-// Opens when user clicks an agency card.
-// Shows: agency name, summary totals, date filter bar,
-//        list of bills, pay modal, bill detail modal.
-// ============================================================
 
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -27,7 +12,7 @@ import ConfirmDialog from '../components/common/Confirmdialog.jsx';
 import Button from '../components/common/Button';
 
 const AgencyBillsPage = () => {
-    const { agencyId }  = useParams();   // from URL: /agencies/:agencyId/bills
+    const { agencyId }  = useParams();
     const navigate      = useNavigate();
 
     const {
@@ -35,16 +20,12 @@ const AgencyBillsPage = () => {
         applyFilter, fetchBills, deleteBill, updateBillInList,
     } = useBills(agencyId);
 
-    // ---- UI state ----
-    const [payingBill,    setPayingBill]    = useState(null); // bill selected for payment
-    const [viewingBillId, setViewingBillId] = useState(null); // bill id for detail view
-    const [deletingBill,  setDeletingBill]  = useState(null); // bill selected for delete
+    const [payingBill,    setPayingBill]    = useState(null);
+    const [viewingBillId, setViewingBillId] = useState(null);
+    const [deletingBill,  setDeletingBill]  = useState(null);
     const [deleteLoading, setDeleteLoading] = useState(false);
 
-    // ---- Handlers ----
     const handlePaySuccess = () => {
-        // Full refetch — guarantees every number on screen matches the DB.
-        // This is the safest approach after a discount payment.
         fetchBills(dateFilter);
         setPayingBill(null);
     };
@@ -56,7 +37,6 @@ const AgencyBillsPage = () => {
         if (result.success) setDeletingBill(null);
     };
 
-    // Navigate to the upload/create bill page
     const handleAddBill = () => {
         navigate(`/agencies/${agencyId}/bills/new`);
     };
@@ -67,10 +47,8 @@ const AgencyBillsPage = () => {
     return (
         <div className="page">
 
-            {/* ---- Page Header ---- */}
             <div className="page-header">
                 <div className="page-header__left">
-                    {/* Back arrow → goes back to agencies list */}
                     <button
                         className="back-btn"
                         onClick={() => navigate('/agencies')}
@@ -98,16 +76,12 @@ const AgencyBillsPage = () => {
                 </div>
             </div>
 
-            {/* ---- Summary totals bar ---- */}
             <SummaryBar summary={summary} />
 
-            {/* ---- Date filter bar ---- */}
             <DateFilterBar currentFilter={dateFilter} onApply={applyFilter} />
 
-            {/* ---- Main content ---- */}
             <div className="page-content">
 
-                {/* LOADING — skeleton cards */}
                 {loading && bills.length === 0 && (
                     <div className="loading-grid">
                         {[1, 2, 3].map(n => (
@@ -120,7 +94,6 @@ const AgencyBillsPage = () => {
                     </div>
                 )}
 
-                {/* ERROR */}
                 {error && !loading && (
                     <div className="state-container" role="alert">
                         <div className="state-box state-box--error">
@@ -132,7 +105,6 @@ const AgencyBillsPage = () => {
                     </div>
                 )}
 
-                {/* EMPTY STATE */}
                 {!loading && !error && bills.length === 0 && (
                     <div className="state-container">
                         <div className="empty-state">
@@ -151,7 +123,6 @@ const AgencyBillsPage = () => {
                     </div>
                 )}
 
-                {/* BILLS LIST */}
                 {bills.length > 0 && (
                     <div className="bill-list" role="list" aria-label="Bills list">
                         {bills.map(bill => (
@@ -169,7 +140,6 @@ const AgencyBillsPage = () => {
 
             </div>
 
-            {/* ---- PAYMENT MODAL ---- */}
             <PaymentModal
                 isOpen={!!payingBill}
                 onClose={() => setPayingBill(null)}
@@ -177,14 +147,12 @@ const AgencyBillsPage = () => {
                 onPaymentSuccess={handlePaySuccess}
             />
 
-            {/* ---- BILL DETAIL MODAL ---- */}
             <BillDetailModal
                 isOpen={!!viewingBillId}
                 onClose={() => setViewingBillId(null)}
                 billId={viewingBillId}
             />
 
-            {/* ---- DELETE CONFIRM ---- */}
             <ConfirmDialog
                 isOpen={!!deletingBill}
                 onClose={() => setDeletingBill(null)}

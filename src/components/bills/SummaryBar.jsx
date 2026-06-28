@@ -1,9 +1,3 @@
-// ============================================================
-// src/components/bills/SummaryBar.jsx
-//
-// The three "stat cards" at the top of the agency bills page.
-// Shows: Total Billed | Total Paid | Total Due
-// ============================================================
 
 import { TrendingUp, CheckCircle, AlertCircle } from 'lucide-react';
 
@@ -35,7 +29,6 @@ const SummaryBar = ({ summary }) => {
       label:  'Total due',
       value:  formatINR(summary.totalDueAmount),
       icon:   AlertCircle,
-      // Red if there's a due amount, gray if fully settled
       color:  Number(summary.totalDueAmount) > 0 ? 'stat-card--red' : 'stat-card--gray',
     },
   ];
@@ -54,7 +47,6 @@ const SummaryBar = ({ summary }) => {
         </div>
       ))}
 
-      {/* Bill count chip */}
       <div className="stat-card stat-card--gray stat-card--count">
         <p className="stat-card__label">Bills</p>
         <p className="stat-card__value">{summary.billCount ?? 0}</p>

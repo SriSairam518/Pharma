@@ -1,23 +1,4 @@
-// ============================================================
-// src/components/common/Button.jsx
-//
-// A reusable Button component.
-//
-// WHY BUILD A CUSTOM BUTTON INSTEAD OF USING <button>?
-// Because you'll use buttons everywhere. If you decide to
-// change the style, you update ONE component instead of
-// hunting through 50 files. This is called DRY:
-// "Don't Repeat Yourself" — a core programming principle.
-//
-// PROPS EXPLAINED:
-// - variant:  "primary" (green), "secondary" (outline),
-//             "danger" (red), "ghost" (transparent)
-// - size:     "sm", "md", "lg"
-// - loading:  shows a spinner and disables the button
-// - ...props: passes anything else (onClick, type, etc.)
-//             to the underlying <button> element
-// ============================================================
- 
+
 import { Loader2 } from 'lucide-react';
 
 const Button = ({
@@ -44,7 +25,6 @@ const Button = ({
         lg : 'btn-lg',
     }
 
-    // Support both naming styles: loading={true} or isLoading={true}
     const isActive = loading || isloading;
 
     return (
@@ -54,7 +34,6 @@ const Button = ({
             aria-busy={isActive}
             {...props}
         >
-            {/* Show spinner when loading */}
             {isActive && (
                 <Loader2
                     size={16}

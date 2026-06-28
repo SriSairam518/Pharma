@@ -1,4 +1,4 @@
-// src/App.jsx — with auth routes, protected routes, and backend wake-up ping
+
 import './App.css'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
@@ -22,22 +22,12 @@ const BACKEND_URL = (import.meta.env.VITE_URL).replace('/api', '');
 
 const App = () => {
 
-    // ================================================================
-    // BACKEND WAKE-UP PING
-    // Render's free tier sleeps after 15 minutes of inactivity.
-    // When the frontend first loads, we immediately ping the /health
-    // endpoint — this wakes the backend up so it's ready by the time
-    // the user logs in and starts making real API calls.
-    // Without this, the first login attempt after idle could time out.
-    // ================================================================
     useEffect(() => {
         const wakeUpBackend = async () => {
             try {
-                await fetch(`${BACKEND_URL}/health`, { method: 'GET' });
+                await fetch(`${BACKEND_URL}`, { method: 'GET' });
                 toast.success("Backend is awake");
             } catch (err) {
-                // Silently ignore — the backend might still be waking up
-                // It will be ready by the time the user logs in
                 toast.error("Backend not started " + err);
             }
         };
@@ -54,12 +44,10 @@ const App = () => {
             }} />
 
             <Routes>
-                {/* ---- PUBLIC ROUTES (no login needed) ---- */}
                 <Route path="/login"            element={<LoginPage />} />
                 <Route path="/forgot-password"  element={<ForgotPasswordPage />} />
                 <Route path="/reset-password"   element={<ResetPasswordPage />} />
 
-                {/* ---- PROTECTED ROUTES (require login) ---- */}
                 <Route element={
                     <ProtectedRoute>
                         <AppLayout />
@@ -73,7 +61,6 @@ const App = () => {
                     <Route path="/income"                       element={<IncomePage />} />
                 </Route>
 
-                {/* Catch-all → home (which redirects to login if not authenticated) */}
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
         </BrowserRouter>

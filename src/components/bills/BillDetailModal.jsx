@@ -1,16 +1,3 @@
-// ============================================================
-// src/components/bills/BillDetailModal.jsx
-//
-// Full detail view of one bill — all medicine items + payment history.
-// Opens when "View" (eye icon) is clicked on a bill card.
-// ============================================================
-
-// src/components/bills/BillDetailModal.jsx
-// Full bill detail — medicine items + payment history with discount + image viewing
-
-// src/components/bills/BillDetailModal.jsx
-// Full bill detail — all scanned pharma columns + scanned summary
-// + payment history with discount/date + click-to-view payment detail popup
 
 import { useState, useEffect } from 'react';
 import { Package, CreditCard, Calendar, Hash, Image as ImageIcon, ExternalLink } from 'lucide-react';
@@ -66,7 +53,6 @@ const BillDetailModal = ({ isOpen, onClose, billId }) => {
                 {bill && !loading && (
                     <div className="bill-detail">
 
-                        {/* Header */}
                         <div className="bill-detail__header">
                             <div className="bill-detail__meta">
                                 <div className="bill-detail__meta-item">
@@ -94,7 +80,6 @@ const BillDetailModal = ({ isOpen, onClose, billId }) => {
                             </div>
                         </div>
 
-                        {/* Scanned bill summary — sub total, discount, GST, net amount */}
                         <div className="bill-summary-readonly">
                             <div className="bill-summary-readonly__item">
                                 <span>Sub total</span><strong>{fmt(bill.subTotal)}</strong>
@@ -110,7 +95,6 @@ const BillDetailModal = ({ isOpen, onClose, billId }) => {
                             </div>
                         </div>
 
-                        {/* Payment status amounts */}
                         <div className="bill-detail__amounts">
                             <div className="bill-detail__amount">
                                 <span>Total</span><strong>{fmt(bill.totalAmount)}</strong>
@@ -124,7 +108,6 @@ const BillDetailModal = ({ isOpen, onClose, billId }) => {
                             </div>
                         </div>
 
-                        {/* Medicine items table — all pharma columns */}
                         <div className="bill-detail__section">
                             <h4 className="bill-detail__section-title">
                                 <Package size={15} aria-hidden="true" /> Medicine items ({bill.items?.length ?? 0})
@@ -164,7 +147,6 @@ const BillDetailModal = ({ isOpen, onClose, billId }) => {
                             )}
                         </div>
 
-                        {/* Payment history — click any row to view full payment detail popup */}
                         {bill.payments?.length > 0 && (
                             <div className="bill-detail__section">
                                 <h4 className="bill-detail__section-title">
@@ -203,7 +185,6 @@ const BillDetailModal = ({ isOpen, onClose, billId }) => {
             <ImageViewer isOpen={viewerOpen} onClose={() => setViewerOpen(false)}
                          imageUrl={viewerUrl} title={viewerTitle} />
 
-            {/* Payment detail popup — same pattern as bill detail popup */}
             <PaymentDetailModal
                 isOpen={!!selectedPayment}
                 onClose={() => setSelectedPayment(null)}

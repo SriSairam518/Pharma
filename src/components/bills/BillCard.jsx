@@ -1,17 +1,7 @@
-// ============================================================
-// src/components/bills/BillCard.jsx
-//
-// Displays one bill in the agency bills list.
-// Shows: bill number, date, totals, status, item count,
-//        Pay button, View detail button, Delete button.
-// ============================================================
-
 import { FileText, Package, Trash2, CreditCard, Eye } from 'lucide-react';
 import BillStatusBadge from './BillStatusBadge';
 import Button from '../common/Button';
 
-// Helper — formats a number as Indian currency
-// e.g. 15000.50 → "₹15,000.50"
 const formatINR = (amount) => {
     if (amount === null || amount === undefined) return '₹0.00';
     return '₹' + Number(amount).toLocaleString('en-IN', {
@@ -20,7 +10,6 @@ const formatINR = (amount) => {
     });
 };
 
-// Helper — formats "2024-06-12" → "12 Jun 2024"
 const formatDate = (dateStr) => {
     if (!dateStr) return '—';
     return new Date(dateStr).toLocaleDateString('en-IN', {
@@ -35,7 +24,6 @@ const BillCard = ({ bill, onPay, onView, onDelete }) => {
     return (
         <article className={`bill-card ${bill.status === 'PAID' ? 'bill-card--paid' : ''}`}>
 
-            {/* ---- Top row: bill number + date + status ---- */}
             <div className="bill-card__top">
                 <div className="bill-card__identity">
                     <div className="bill-card__icon" aria-hidden="true">
@@ -49,7 +37,6 @@ const BillCard = ({ bill, onPay, onView, onDelete }) => {
                 <BillStatusBadge status={bill.status} />
             </div>
 
-            {/* ---- Middle row: money breakdown ---- */}
             <div className="bill-card__amounts">
                 <div className="bill-card__amount-item">
                     <span className="bill-card__amount-label">Total</span>
@@ -69,17 +56,15 @@ const BillCard = ({ bill, onPay, onView, onDelete }) => {
                 </div>
             </div>
 
-            {/* ---- Bottom row: item count + actions ---- */}
             <div className="bill-card__footer">
-                {/* Medicine item count */}
                 <div className="bill-card__meta">
                     <Package size={13} aria-hidden="true" />
                     <span>{bill.itemCount ?? '—'} item{bill.itemCount !== 1 ? 's' : ''}</span>
                 </div>
 
-                {/* Action buttons */}
+
                 <div className="bill-card__actions">
-                    {/* View detail */}
+
                     <button
                         className="icon-btn icon-btn--edit"
                         onClick={() => onView(bill)}
@@ -89,7 +74,6 @@ const BillCard = ({ bill, onPay, onView, onDelete }) => {
                         <Eye size={15} />
                     </button>
 
-                    {/* Pay — only show if there's a due amount */}
                     {isDue && (
                         <Button
                             variant="primary"
@@ -102,7 +86,6 @@ const BillCard = ({ bill, onPay, onView, onDelete }) => {
                         </Button>
                     )}
 
-                    {/* Delete */}
                     <button
                         className="icon-btn icon-btn--delete"
                         onClick={() => onDelete(bill)}

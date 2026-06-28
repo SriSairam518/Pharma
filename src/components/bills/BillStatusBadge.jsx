@@ -1,6 +1,3 @@
-// ============================================================
-// src/components/bills/BillStatusBadge.jsx
-// ============================================================
 
 const STATUS_CONFIG = {
     UNPAID:         { label: 'Unpaid',   className: 'badge badge--danger'  },

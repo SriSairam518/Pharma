@@ -1,4 +1,4 @@
-// src/pages/LoginPage.jsx
+
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Pill, Eye, EyeOff } from 'lucide-react';
@@ -32,7 +32,6 @@ const LoginPage = () => {
         <div className="auth-page">
             <div className="auth-card">
 
-                {/* Logo */}
                 <div className="auth-logo">
                     <div className="auth-logo__icon"><Pill size={28} /></div>
                     <div>

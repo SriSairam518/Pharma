@@ -1,14 +1,3 @@
-// ============================================================
-// src/hooks/useAuth.js
-//
-// Manages authentication state for the whole app.
-// Reads/writes the JWT from localStorage and exposes login/logout.
-//
-// WHY localStorage?
-// The JWT needs to survive page refreshes (otherwise every reload
-// would log you out). localStorage persists until explicitly cleared.
-// For a single-user family app on a trusted device, this is fine.
-// ============================================================
 
 import { useState, useCallback } from 'react';
 import { authApi } from '../services/api';
@@ -17,7 +6,6 @@ import toast from 'react-hot-toast';
 const TOKEN_KEY  = 'pharma_token';
 const USER_KEY   = 'pharma_user';
 
-// Read initial state from localStorage (survives page refresh)
 const getStoredToken = () => localStorage.getItem(TOKEN_KEY);
 const getStoredUser  = () => localStorage.getItem(USER_KEY);
 

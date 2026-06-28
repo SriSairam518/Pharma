@@ -1,18 +1,3 @@
-// ============================================================
-// src/pages/AgenciesPage.jsx
-//
-// The main Agency Management page.
-//
-// THIS IS THE "ORCHESTRATOR" — it:
-// 1. Uses the useAgencies hook to get data + actions
-// 2. Manages UI state (which modal is open, which agency is selected)
-// 3. Renders the list of AgencyCards
-// 4. Opens the form modal for create/edit
-// 5. Opens the confirm dialog for delete
-//
-// Think of it like a manager: it delegates work to
-// specialized components and coordinates between them.
-// ============================================================
 
 import { useState } from 'react';
 import { Plus, Building2, RefreshCw, Search } from 'lucide-react';
@@ -25,7 +10,6 @@ import Button from '../components/common/Button';
 
 const AgenciesPage = () => {
 
-    // ---- DATA & ACTIONS from our custom hook ----
     const {
         agencies,
         loading,
@@ -37,57 +21,40 @@ const AgenciesPage = () => {
         deleteAgency,
     } = useAgencies();
 
-    // ---- UI STATE ----
-    // These control which modals are visible and which agency is selected
     const [isFormOpen, setIsFormOpen]         = useState(false);
     const [isDeleteOpen, setIsDeleteOpen]     = useState(false);
-    const [selectedAgency, setSelectedAgency] = useState(null); // agency being edited/deleted
+    const [selectedAgency, setSelectedAgency] = useState(null);
     const [searchQuery, setSearchQuery]       = useState('');
 
-    // ---- HANDLERS ----
-
-    // Open the "Add Agency" form (no selected agency = create mode)
     const handleAddClick = () => {
-        setSelectedAgency(null);   // clear any previously selected agency
+        setSelectedAgency(null);
         setIsFormOpen(true);
     };
 
-    // Open the "Edit Agency" form with the selected agency's data
     const handleEditClick = (agency) => {
         setSelectedAgency(agency);
         setIsFormOpen(true);
     };
 
-    // Open the delete confirmation dialog
     const handleDeleteClick = (agency) => {
         setSelectedAgency(agency);
         setIsDeleteOpen(true);
     };
 
-    // Called when the form is submitted (create or update)
     const handleFormSubmit = async (formData) => {
         let result;
         if (selectedAgency) {
-            // Edit mode — pass the existing agency's ID
             result = await updateAgency(selectedAgency.id, formData);
         } else {
-            // Create mode
             result = await createAgency(formData);
         }
-        // Only close the modal if the operation succeeded
         if (result.success) setIsFormOpen(false);
     };
 
-    // Called when delete is confirmed
     const handleDeleteConfirm = async () => {
         const result = await deleteAgency(selectedAgency.id, selectedAgency.name);
         if (result.success) setIsDeleteOpen(false);
     };
-
-    // ---- SEARCH FILTERING ----
-    // Filter agencies client-side based on search input.
-    // For a real app with thousands of records, you'd do this
-    // on the backend. For a medical shop (< 100 agencies), this is fine.
 
     const filteredAgencies = agencies.filter(agency => {
             if (!searchQuery.trim()) return true;
@@ -102,11 +69,9 @@ const AgenciesPage = () => {
             );
         });
 
-    // ---- RENDER ----
     return (
         <div className="page">
 
-            {/* ---- Page Header ---- */}
             <div className="page-header">
                 <div>
                     <h1 className="page-title">Agencies</h1>
@@ -118,9 +83,7 @@ const AgenciesPage = () => {
                     </p>
                 </div>
 
-                {/* Header actions */}
                 <div className="page-header__actions">
-                    {/* Refresh button */}
                     <Button
                         variant="ghost"
                         size="sm"
@@ -132,7 +95,6 @@ const AgenciesPage = () => {
                         <RefreshCw size={16} />
                     </Button>
 
-                    {/* Add Agency button */}
                     <Button
                         variant="primary"
                         onClick={handleAddClick}
@@ -143,7 +105,6 @@ const AgenciesPage = () => {
                 </div>
             </div>
 
-            {/* ---- Search Bar ---- */}
             {agencies.length > 0 && (
                 <div className="search-bar">
                     <Search size={16} className="search-bar__icon" aria-hidden="true" />
@@ -158,10 +119,8 @@ const AgenciesPage = () => {
                 </div>
             )}
 
-            {/* ---- Main Content Area ---- */}
             <div className="page-content">
 
-                {/* LOADING STATE */}
                 {loading && agencies.length === 0 && (
                     <div className="state-container">
                         <div className="loading-grid" aria-label="Loading agencies...">
@@ -177,7 +136,6 @@ const AgenciesPage = () => {
                     </div>
                 )}
 
-                {/* ERROR STATE */}
                 {error && !loading && (
                     <div className="state-container" role="alert">
                         <div className="state-box state-box--error">
@@ -189,7 +147,6 @@ const AgenciesPage = () => {
                     </div>
                 )}
 
-                {/* EMPTY STATE — no agencies at all */}
                 {!loading && !error && agencies.length === 0 && (
                     <div className="state-container">
                         <div className="empty-state">
@@ -208,7 +165,6 @@ const AgenciesPage = () => {
                     </div>
                 )}
 
-                {/* EMPTY SEARCH RESULTS */}
                 {!loading && agencies.length > 0 && filteredAgencies.length === 0 && (
                     <div className="state-container">
                         <div className="empty-state">
@@ -226,7 +182,6 @@ const AgenciesPage = () => {
                     </div>
                 )}
 
-                {/* AGENCIES GRID */}
                 {filteredAgencies.length > 0 && (
                     <div
                         className="agency-grid"
@@ -247,7 +202,6 @@ const AgenciesPage = () => {
 
             </div>
 
-            {/* ---- CREATE / EDIT MODAL ---- */}
             <Modal
                 isOpen={isFormOpen}
                 onClose={() => setIsFormOpen(false)}
@@ -262,7 +216,6 @@ const AgenciesPage = () => {
                 />
             </Modal>
 
-            {/* ---- DELETE CONFIRMATION MODAL ---- */}
             <ConfirmDialog
                 isOpen={isDeleteOpen}
                 onClose={() => setIsDeleteOpen(false)}

@@ -1,12 +1,4 @@
-/* ================================================================
-   App.css — Component Styles
-   Laptop-first design | Outfit font | Clean medical-green theme
-   ================================================================ */
 
-/* ----------------------------------------------------------------
-   APP LAYOUT
-   Two-column grid: fixed sidebar + scrollable main
-   ---------------------------------------------------------------- */
 .auth-page {
   min-height: 100vh;
   display: flex;

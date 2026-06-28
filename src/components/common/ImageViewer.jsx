@@ -1,27 +1,15 @@
-// ============================================================
-// src/components/common/ImageViewer.jsx
-//
-// Lightbox overlay for viewing uploaded images.
-// Features:
-//   - Full screen dark overlay
-//   - Image centred and scrollable
-//   - "Open in new tab" button
-//   - Close on Escape / backdrop click
-// ============================================================
 
 import { useEffect } from 'react';
 import { X, ExternalLink, ZoomIn } from 'lucide-react';
 
 const ImageViewer = ({ isOpen, onClose, imageUrl, title = 'Image' }) => {
 
-    // Close on Escape
     useEffect(() => {
         const onKey = (e) => { if (e.key === 'Escape') onClose(); };
         if (isOpen) document.addEventListener('keydown', onKey);
         return () => document.removeEventListener('keydown', onKey);
     }, [isOpen, onClose]);
 
-    // Lock body scroll
     useEffect(() => {
         document.body.style.overflow = isOpen ? 'hidden' : '';
         return () => { document.body.style.overflow = ''; };
@@ -37,11 +25,9 @@ const ImageViewer = ({ isOpen, onClose, imageUrl, title = 'Image' }) => {
             aria-modal="true"
             aria-label={`Viewing: ${title}`}
         >
-            {/* Toolbar — top right */}
             <div className="image-viewer__toolbar" onClick={e => e.stopPropagation()}>
                 <span className="image-viewer__title">{title}</span>
                 <div className="image-viewer__actions">
-                    {/* Open in new tab */}
                     <a
                         href={imageUrl}
                         target="_blank"
@@ -52,7 +38,6 @@ const ImageViewer = ({ isOpen, onClose, imageUrl, title = 'Image' }) => {
                     >
                         <ExternalLink size={18} />
                     </a>
-                    {/* Close */}
                     <button
                         className="image-viewer__btn"
                         onClick={onClose}
@@ -64,7 +49,6 @@ const ImageViewer = ({ isOpen, onClose, imageUrl, title = 'Image' }) => {
                 </div>
             </div>
 
-            {/* Image — centred, click doesn't close */}
             <div
                 className="image-viewer__content"
                 onClick={e => e.stopPropagation()}
@@ -76,7 +60,6 @@ const ImageViewer = ({ isOpen, onClose, imageUrl, title = 'Image' }) => {
                 />
             </div>
 
-            {/* Hint */}
             <p className="image-viewer__hint">Click outside or press Esc to close</p>
         </div>
     );

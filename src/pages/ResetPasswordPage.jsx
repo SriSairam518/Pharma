@@ -1,4 +1,4 @@
-// src/pages/ResetPasswordPage.jsx
+
 import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { Pill, Eye, EyeOff, CheckCircle, AlertCircle } from 'lucide-react';
@@ -18,7 +18,6 @@ const ResetPasswordPage = () => {
     const [errors,          setErrors]          = useState({});
     const [done,            setDone]            = useState(false);
 
-    // If no token in URL, redirect to forgot-password immediately
     useEffect(() => {
         if (!token) {
             toast.error('Invalid reset link — please request a new one');

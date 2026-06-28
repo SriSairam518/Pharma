@@ -1,17 +1,3 @@
-// ============================================================
-// src/hooks/usePayment.js
-//
-// Handles recording a payment against a bill.
-// Used by the PaymentModal.
-// ============================================================
-
-// src/hooks/usePayment.js
-// Handles recording a payment. After success, triggers a full
-// bills refetch so every number on screen is guaranteed correct.
-
-// src/hooks/usePayment.js
-// Handles recording a payment, including the new payment date
-// and one-click "mark as fully paid" path.
 
 import { useState } from 'react';
 import { paymentApi, uploadApi } from '../services/api';
@@ -38,8 +24,6 @@ const usePayment = (onSuccess) => {
         }
     };
 
-    // formData can include: amountPaid, paymentDate, discountType,
-    // discountValue, notes, markAsFullyPaid (boolean)
     const submitPayment = async (billId, formData) => {
         setSubmitting(true);
         try {

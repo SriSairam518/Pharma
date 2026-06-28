@@ -1,31 +1,3 @@
-// ============================================================
-// src/components/bills/PaymentModal.jsx
-//
-// Modal form for paying a bill (partial or full).
-// Shows: due amount, input for how much to pay, optional
-//        proof image upload, optional note.
-// ============================================================
-
-// src/components/bills/PaymentModal.jsx
-// Supports: fixed/percentage discount + proof image upload + preview
-
-// src/components/bills/PaymentModal.jsx
-// Added: payment date picker + "Mark as fully paid" one-click button
-// Discount + proof upload retained from before.
-
-// src/components/bills/PaymentModal.jsx
-//
-// Reordered flow (top to bottom):
-//   1. Payment date
-//   2. Discount (optional — fixed ₹ or %)
-//   3. Payment proof upload (optional)
-//   4. "Mark bill as fully paid" — one click, uses whatever discount/proof
-//      was set above. Works with OR without a discount.
-//   5. Divider — "or record a partial payment"
-//   6. Amount field + notes + Record payment button (manual partial flow)
-//
-// This way the fully-paid button always reflects the discount and
-// receipt you've already set up, instead of sitting above them.
 
 import { useState, useRef, useEffect } from 'react';
 import { Upload, ImageIcon, Percent, IndianRupee, X, CheckCheck } from 'lucide-react';
@@ -83,12 +55,6 @@ const PaymentModal = ({ isOpen, onClose, bill, onPaymentSuccess }) => {
         setErrors(e => ({ ...e, amountPaid: '' }));
     };
 
-    // ---- "Mark as fully paid" ----
-    // Works whether or not a discount is set:
-    //   - No discount  → entire due becomes the cash amount paid
-    //   - With discount → discount is applied first, remaining due becomes cash paid
-    // Whatever receipt was uploaded above is attached automatically
-    // (usePayment always includes proofUrl from its own state).
     const handleMarkFullyPaid = async () => {
         const e = {};
         if (!paymentDate) e.paymentDate = 'Select a payment date';
@@ -176,7 +142,6 @@ const PaymentModal = ({ isOpen, onClose, bill, onPaymentSuccess }) => {
                     </div>
                 </div>
 
-                {/* ---- PAYMENT DATE — applies to both flows below ---- */}
                 <div className="form-group">
                     <label htmlFor="payment-date" className="form-label">
                         Payment date <span className="form-required">*</span>
@@ -192,7 +157,6 @@ const PaymentModal = ({ isOpen, onClose, bill, onPaymentSuccess }) => {
                     {errors.paymentDate && <p className="form-error" role="alert">{errors.paymentDate}</p>}
                 </div>
 
-                {/* ---- DISCOUNT — applies to both flows below ---- */}
                 <div className="form-group">
                     <label className="form-label">Discount (optional)</label>
                     <div className="discount-type-row">
@@ -222,7 +186,6 @@ const PaymentModal = ({ isOpen, onClose, bill, onPaymentSuccess }) => {
                     {errors.discountValue && <p className="form-error" role="alert">{errors.discountValue}</p>}
                 </div>
 
-                {/* ---- PROOF IMAGE — applies to both flows below ---- */}
                 <div className="form-group">
                     <label className="form-label">Payment proof / receipt (optional)</label>
                     <input ref={fileInputRef} type="file" accept="image/*,.pdf"
@@ -245,8 +208,6 @@ const PaymentModal = ({ isOpen, onClose, bill, onPaymentSuccess }) => {
                     )}
                 </div>
 
-                {/* ---- ONE-CLICK MARK AS FULLY PAID ---- */}
-                {/* Now reflects whatever discount + receipt were set above */}
                 <button
                     type="button"
                     className="mark-fully-paid-btn"
@@ -267,7 +228,6 @@ const PaymentModal = ({ isOpen, onClose, bill, onPaymentSuccess }) => {
 
                 <form onSubmit={handleSubmit} noValidate>
 
-                    {/* ---- AMOUNT PAID ---- */}
                     <div className="form-group">
                         <div className="payment-modal__amount-label">
                             <label htmlFor="pay-amount" className="form-label">
@@ -288,7 +248,6 @@ const PaymentModal = ({ isOpen, onClose, bill, onPaymentSuccess }) => {
                         {errors.amountPaid && <p className="form-error" role="alert">{errors.amountPaid}</p>}
                     </div>
 
-                    {/* ---- LIVE SUMMARY ---- */}
                     {(parseFloat(amountPaid) > 0 || discountAmount > 0) && (
                         <div className="payment-summary">
                             {discountAmount > 0 && (
@@ -311,7 +270,6 @@ const PaymentModal = ({ isOpen, onClose, bill, onPaymentSuccess }) => {
                         </div>
                     )}
 
-                    {/* ---- NOTES ---- */}
                     <div className="form-group">
                         <label htmlFor="pay-notes" className="form-label">Note (optional)</label>
                         <input id="pay-notes" type="text" className="form-input"

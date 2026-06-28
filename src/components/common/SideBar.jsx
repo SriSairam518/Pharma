@@ -1,10 +1,3 @@
-// ============================================================
-// src/components/common/Sidebar.jsx
-//
-// The left sidebar navigation.
-// Uses react-router-dom's NavLink which automatically adds
-// an "active" class to the current page's link.
-// ============================================================
 
 import { NavLink } from 'react-router-dom';
 import {
@@ -16,8 +9,6 @@ import {
     Pill,
 } from 'lucide-react';
 
-// Define navigation items in a data array.
-// Adding a new page = just add one object here.
 const navItems = [
     { to: '/',           icon: LayoutDashboard, label: 'Dashboard'  },
     { to: '/agencies',   icon: Building2,       label: 'Agencies'   },
@@ -30,7 +21,6 @@ const Sidebar = () => {
     return (
         <aside className="sidebar" role="navigation" aria-label="Main navigation">
 
-            {/* App Logo / Brand */}
             <div className="sidebar__brand">
                 <div className="sidebar__logo" aria-hidden="true">
                     <Pill size={22} />
@@ -41,17 +31,10 @@ const Sidebar = () => {
                 </div>
             </div>
 
-            {/* Navigation Links */}
             <nav>
                 <ul className="sidebar__nav" role="list">
                     {navItems.map(({ to, icon: Icon, label }) => (
                         <li key={to}>
-                            {/*
-                NavLink automatically adds className "active"
-                when the current URL matches this link's `to`.
-                `end` prop on "/" means it only matches exactly "/",
-                not every route (since every route starts with /)
-              */}
                             <NavLink
                                 to={to}
                                 end={to === '/'}

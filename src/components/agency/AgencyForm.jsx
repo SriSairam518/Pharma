@@ -1,19 +1,3 @@
-// ============================================================
-// src/components/agency/AgencyForm.jsx
-//
-// The form for creating and editing an agency.
-//
-// KEY CONCEPT: react-hook-form
-// Managing form state manually (onChange, value, errors for
-// every field) creates a LOT of boilerplate code. react-hook-form
-// handles all of that for you.
-//
-// The 3 main tools from react-hook-form:
-// - register()   → connects an input to the form
-// - handleSubmit → calls your function only if validation passes
-// - formState    → gives you { errors, isSubmitting, etc. }
-// ============================================================
-
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import Input from '../common/Input';
@@ -26,15 +10,13 @@ const AgencyForm = ({
     onCancel,
 }) => {
 
-    // ---- SET UP THE FORM ----
     const {
-        register,       // connects inputs to the form
-        handleSubmit,       // wraps your submit function with validation
-        formState: { errors },      // validation errors for each field
-        reset       // resets all fields
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset
     } = useForm({
         defaultValues: {
-            // Default values — pre-fills the form when editing
             name: "",
             contactPerson: "",
             phone: "",
@@ -44,8 +26,6 @@ const AgencyForm = ({
         }
     });
 
-    // When initialData changes (e.g. user clicks Edit on a different agency),
-    // reset the form with the new data
     useEffect(() => {
         if (initialData) {
             reset(initialData);
@@ -55,17 +35,12 @@ const AgencyForm = ({
         }
     }, [initialData, reset]);
 
-    // ---- FORM SUBMISSION ----
-    // handleSubmit only calls this if ALL validations pass
     const onFormSubmit = async (data) => {
         onSubmit(data);
     }
 
     return (
-        // noValidate disables browser's built-in validation
-        // (we use our own, which looks better)
         <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-            {/* ---- ROW 1: Agency Name ---- */}
             <Input
                 label="Agency Name"
                 required
@@ -84,7 +59,6 @@ const AgencyForm = ({
                 })}
             />
 
-            {/* ---- ROW 2: Contact Person ---- */}
             <Input
                 label="Contact Person"
                 required
@@ -99,7 +73,6 @@ const AgencyForm = ({
                 })}
             />
 
-            {/* ---- ROW 3: Phone + Email (side by side on larger screens) ---- */}
             <div className='form-row'>
                 <input
                     label="Phone Number"
@@ -132,7 +105,6 @@ const AgencyForm = ({
                 />
             </div>
 
-            {/* ---- ROW 4: Address ---- */}
             <div className='form-group'>
                 <label htmlFor="address" className="form-label">Address</label>
                 <textarea
@@ -150,21 +122,19 @@ const AgencyForm = ({
                 )}
             </div>
 
-            {/* ---- ROW 5: GSTIN ---- */}
             <Input
                 label="GSTIN"
                 placeholder="e.g. 22AAAAA0000A1Z5"
                 hint="15-character GST Identification Number (optional)"
                 error={errors.gstin?.message}
-                // {...register('gstin', {
-                //     pattern: {
-                //         value: /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/,
-                //         message: 'Enter a valid GSTIN (e.g. 29ABCDE1234F1Z5)'
-                //     }
-                // })}
+                {...register('gstin', {
+                    pattern: {
+                        value: /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/,
+                        message: 'Enter a valid GSTIN (e.g. 29ABCDE1234F1Z5)'
+                    }
+                })}
             />
 
-            {/* ---- FORM ACTIONS ---- */}
             <div className='form-actions'>
                 <Button
                     type = "button"

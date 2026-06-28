@@ -1,8 +1,3 @@
-// ============================================================
-// src/components/bills/DateFilterBar.jsx
-//
-// Date range filter bar with quick buttons + custom range.
-// ============================================================
 
 import { useState } from 'react';
 import Button from '../common/Button';
@@ -15,7 +10,6 @@ const QUICK_OPTIONS = [
 ];
 
 const DateFilterBar = ({ currentFilter, onApply }) => {
-    // Local state for the custom date inputs
     const [from, setFrom] = useState('');
     const [to,   setTo]   = useState('');
     const [showCustom, setShowCustom] = useState(false);
@@ -30,7 +24,6 @@ const DateFilterBar = ({ currentFilter, onApply }) => {
         onApply({ type: 'custom', from, to });
     };
 
-    // Check if a quick button is active
     const isActive = (option) => {
         if (option.type === 'all'  && currentFilter.type === 'all')  return true;
         if (option.type === 'days' && currentFilter.type === 'days'
@@ -52,7 +45,6 @@ const DateFilterBar = ({ currentFilter, onApply }) => {
                     </button>
                 ))}
 
-                {/* Custom range toggle */}
                 <button
                     className={`filter-chip ${currentFilter.type === 'custom' ? 'filter-chip--active' : ''}`}
                     onClick={() => setShowCustom(v => !v)}
@@ -62,7 +54,6 @@ const DateFilterBar = ({ currentFilter, onApply }) => {
                 </button>
             </div>
 
-            {/* Custom date range inputs — shown when "Custom" is clicked */}
             {showCustom && (
                 <div className="date-filter-bar__custom">
                     <label className="form-label" htmlFor="from-date">From</label>

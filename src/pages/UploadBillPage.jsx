@@ -1,27 +1,3 @@
-// ============================================================
-// src/pages/UploadBillPage.jsx
-//
-// The 4-step bill creation flow:
-//   Step 1 — Upload bill image
-//   Step 2 — OCR processes → fills editable table
-//   Step 3 — User reviews and edits the table rows
-//   Step 4 — Fill bill details (number, date) → Save
-//
-// NOTE ON OCR:
-// Real OCR requires a backend endpoint that calls Tesseract/Google Vision.
-// For now, we call POST /api/ocr/scan which returns extracted rows.
-// If that endpoint isn't built yet, we fallback to "manual entry" mode
-// where the user fills the table themselves.
-// ============================================================
-
-// src/pages/UploadBillPage.jsx
-// Upload bill image → Mistral OCR → auto-fills table + bill number + date
-// Shows warning if calculated total doesn't match bill total
-
-// src/pages/UploadBillPage.jsx
-// Real pharma invoice columns, fully scanned (no calculation).
-// Columns: HSN | Medicine | Pack | Batch | Expiry | Qty | MRP | Rate | Disc | GST | Amount
-// Bill summary: Sub Total | Discount | GST | Net Amount (all scanned)
 
 import { useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -33,7 +9,6 @@ import toast from 'react-hot-toast';
 
 const BASE_URL = import.meta.env.BACKEND_URL;
 
-// Empty row template — all fields blank, user or OCR fills them
 const emptyRow = () => ({
     _id:          crypto.randomUUID(),
     hsnCode:      '',
@@ -62,11 +37,9 @@ const UploadBillPage = () => {
     const [billImageUrl, setBillImageUrl] = useState('');
     const [rows,         setRows]         = useState([emptyRow()]);
 
-    // Bill header fields
     const [billNumber,   setBillNumber]   = useState('');
     const [billDate,     setBillDate]     = useState('');
 
-    // Bill summary fields — ALL scanned, not calculated
     const [subTotal,     setSubTotal]     = useState('');
     const [billDiscount, setBillDiscount] = useState('');
     const [billGst,      setBillGst]      = useState('');
@@ -78,9 +51,6 @@ const UploadBillPage = () => {
 
     const fileInputRef = useRef(null);
 
-    // ================================================================
-    // STEP 1+2 — Upload image, then call OCR
-    // ================================================================
     const handleFileChange = async (e) => {
         const file = e.target.files?.[0];
         if (!file) return;
@@ -148,9 +118,6 @@ const UploadBillPage = () => {
         setStep(3);
     };
 
-    // ================================================================
-    // TABLE EDITING
-    // ================================================================
     const updateRow = (idx, field, value) =>
         setRows(prev => prev.map((r, i) => i === idx ? { ...r, [field]: value } : r));
 
@@ -161,9 +128,6 @@ const UploadBillPage = () => {
         setRows(prev => prev.filter((_, i) => i !== idx));
     };
 
-    // ================================================================
-    // VALIDATE + SAVE
-    // ================================================================
     const validate = () => {
         const e = {};
         if (!billNumber.trim()) e.billNumber = 'Bill number is required';
@@ -213,9 +177,6 @@ const UploadBillPage = () => {
         }
     };
 
-    // ================================================================
-    // RENDER
-    // ================================================================
     return (
         <div className="page">
 
@@ -231,7 +192,6 @@ const UploadBillPage = () => {
                 </div>
             </div>
 
-            {/* ---- STEP 1: Upload ---- */}
             {step === 1 && (
                 <div className="upload-section">
                     <input ref={fileInputRef} type="file" accept="image/*,.pdf"
@@ -247,7 +207,6 @@ const UploadBillPage = () => {
                 </div>
             )}
 
-            {/* ---- STEP 2: Scanning ---- */}
             {step === 2 && (
                 <div className="scanning-state">
                     <div className="scanning-state__icon"><ScanLine size={40} /></div>
@@ -257,11 +216,9 @@ const UploadBillPage = () => {
                 </div>
             )}
 
-            {/* ---- STEP 3: Editable table + summary ---- */}
             {step === 3 && (
                 <div className="bill-form">
 
-                    {/* Bill header */}
                     <div className="bill-form__meta">
                         <Input label="Bill number" required placeholder="e.g. AE05049"
                                value={billNumber} onChange={e => setBillNumber(e.target.value)}
@@ -281,7 +238,6 @@ const UploadBillPage = () => {
                         </div>
                     )}
 
-                    {/* Medicine items table */}
                     <div className="bill-form__table-section">
                         <div className="bill-form__table-header">
                             <h3 className="bill-form__table-title">Medicine items ({rows.length})</h3>
@@ -379,7 +335,6 @@ const UploadBillPage = () => {
                         </div>
                     </div>
 
-                    {/* Bill summary — sub total, discount, GST, net amount — ALL scanned */}
                     <div className="bill-form__table-section">
                         <div className="bill-form__table-header">
                             <h3 className="bill-form__table-title">Bill summary (scanned from bill)</h3>
@@ -401,7 +356,6 @@ const UploadBillPage = () => {
                         </div>
                     </div>
 
-                    {/* Actions */}
                     <div className="bill-form__actions">
                         <Button variant="secondary" onClick={() => navigate(-1)} disabled={saving}>Cancel</Button>
                         <Button variant="primary" onClick={handleSave} loading={saving}>

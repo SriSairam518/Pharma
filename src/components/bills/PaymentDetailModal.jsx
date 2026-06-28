@@ -1,14 +1,3 @@
-// ============================================================
-// src/components/bills/PaymentDetailModal.jsx
-//
-// A dedicated popup showing one payment's full details —
-// mirrors BillDetailModal's pattern. Opens when the user clicks
-// a payment row inside the bill detail modal's payment history.
-//
-// Shows: amount paid, payment date, discount breakdown,
-//        total cleared, notes, and the uploaded proof image
-//        (thumbnail + open in new tab, same as bill scan viewing).
-// ============================================================
 
 import { useState } from 'react';
 import { Calendar, IndianRupee, Percent, FileText, Image as ImageIcon, ExternalLink, Clock } from 'lucide-react';
@@ -46,14 +35,12 @@ const PaymentDetailModal = ({ isOpen, onClose, payment, billNumber }) => {
             <Modal isOpen={isOpen} onClose={onClose} title="Payment detail" size="sm">
                 <div className="payment-detail">
 
-                    {/* Header — amount cleared, big and clear */}
                     <div className="payment-detail__hero">
                         <p className="payment-detail__hero-label">Total cleared</p>
                         <p className="payment-detail__hero-amount">{fmt(payment.totalCleared)}</p>
                         {billNumber && <p className="payment-detail__hero-bill">Bill #{billNumber}</p>}
                     </div>
 
-                    {/* Breakdown */}
                     <div className="payment-detail__rows">
                         <div className="payment-detail__row">
                             <span><IndianRupee size={14} aria-hidden="true" /> Cash / UPI paid</span>
@@ -89,7 +76,6 @@ const PaymentDetailModal = ({ isOpen, onClose, payment, billNumber }) => {
                         )}
                     </div>
 
-                    {/* Proof image — thumbnail + view + open in new tab */}
                     {payment.proofImageUrl ? (
                         <div className="payment-detail__proof">
                             <p className="payment-detail__proof-label">Payment proof</p>

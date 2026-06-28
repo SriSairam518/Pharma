@@ -1,15 +1,3 @@
-// ============================================================
-// src/components/agency/AgencyCard.jsx
-//
-// Displays a single agency as a card in the list.
-//
-// WHY A SEPARATE CARD COMPONENT?
-// The list page renders many cards. Keeping card logic separate
-// makes the list page cleaner and the card reusable.
-// ============================================================
-
-// src/components/agency/AgencyCard.jsx — clicking card opens agency's bills page
-
 import { useNavigate } from 'react-router-dom';
 import { Phone, Mail, MapPin, CreditCard, User, Pencil, Trash2, ChevronRight } from 'lucide-react';
 

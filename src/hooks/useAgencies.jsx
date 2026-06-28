@@ -1,41 +1,14 @@
-// ============================================================
-// src/hooks/useAgencies.js
-//
-// WHAT IS A CUSTOM HOOK?
-// A "hook" in React is a function that manages state and
-// side effects (like API calls). A CUSTOM hook is one you
-// write yourself to package reusable logic.
-//
-// ANALOGY: Think of it like a TV remote. The remote (hook)
-// hides all the complex wiring (API calls, loading states,
-// error handling) and gives you simple buttons to press.
-//
-// WHY USE A HOOK INSTEAD OF PUTTING THIS IN THE COMPONENT?
-// 1. The component stays clean — only handles what to SHOW
-// 2. You can reuse this logic in other components
-// 3. Easier to test in isolation
-// ============================================================
 
 import { useState, useEffect, useCallback } from "react";
 import { agencyApi } from "../services/api";
 import toast from 'react-hot-toast';
 
-// Custom hook — by convention, hook names always start with "use"
 const useAgencies = () => {
-
-    // ---- STATE ----
-    // useState gives us a variable + a function to update it.
-    // When state updates, React re-renders the component.
 
     const [agencies, setAgencies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [submitting, setSubmitting] = useState(false);
-
-
-     // ---- FETCH ALL AGENCIES ----
-    // useCallback prevents this function from being recreated
-    // on every render — a performance optimization.
 
     const fetchAgencies = useCallback(async () => {
         setLoading(true);
@@ -43,7 +16,6 @@ const useAgencies = () => {
 
         try{
             const response = await agencyApi.getAll();
-            // Spring Boot wraps data in response.data
             setAgencies(response.data.data || []);
         } catch (err) {
             const message = err.response?.data?.message || err.message || "Failed to load agencies";
@@ -54,20 +26,15 @@ const useAgencies = () => {
         }
     }, []);
 
-    // useEffect runs after the component mounts (appears on screen).
-    // The [] means "run only once" — like componentDidMount in class components.
-
     useEffect(() => {
         fetchAgencies();
     }, [fetchAgencies]);
 
-    // ---- CREATE AGENCY ----
     const createAgency = async (agencyData) => {
         setSubmitting(true);
         try{
             const response = await agencyApi.create(agencyData);
             const newAgency = response.data.data;
-            // Add the new agency to the top of the list without refetching
             setAgencies(prev => [newAgency, ...prev]);
             toast.success(`Agency "${newAgency.name}" created successfully!`);
             return { success: true};
@@ -80,13 +47,11 @@ const useAgencies = () => {
         }
     }
 
-    // ---- UPDATE AGENCY ----
     const updateAgency = async (id, agencyData) => {
         setSubmitting(true);
         try{
             const response = await agencyApi.update(id, agencyData);
             const updatedAgency = response.data.data;
-            // Replace the old Agency object with the updated one
             setAgencies(prev => 
                 prev.map(agency => 
                     agency.id === id ? updatedAgency: agency
@@ -103,7 +68,6 @@ const useAgencies = () => {
         }
     }
 
-    // ---- DELETE AGENCY ----
     const deleteAgency = async (id, name) => {
         setSubmitting(true);
         try{
@@ -122,7 +86,6 @@ const useAgencies = () => {
         }
     }
 
-    // return everything the component needs to interact with agencies
     return {
         agencies,
         loading,

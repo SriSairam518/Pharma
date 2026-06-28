@@ -1,16 +1,3 @@
-// ============================================================
-// src/components/common/MobileTopBar.jsx
-//
-// Mobile-only top bar. Tapping the app name/logo reveals a
-// dropdown menu with all navigation links — replaces the
-// sidebar on small screens (sidebar is hidden via CSS media query).
-//
-// WHY A SEPARATE COMPONENT INSTEAD OF REUSING SIDEBAR?
-// The sidebar is a permanent vertical list. This is a compact bar
-// with a toggleable dropdown — different enough interaction pattern
-// that sharing one component would mean a lot of conditional logic.
-// Keeping them separate keeps each one simple and readable.
-// ============================================================
 
 import { useState, useRef, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
@@ -31,13 +18,10 @@ const MobileTopBar = () => {
     const dropdownRef = useRef(null);
     const location = useLocation();
 
-    // Close the dropdown automatically whenever the route changes
-    // (so tapping a link closes the menu right away)
     useEffect(() => {
         setIsOpen(false);
     }, [location.pathname]);
 
-    // Close when tapping outside the dropdown
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -48,14 +32,12 @@ const MobileTopBar = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [isOpen]);
 
-    // Close on Escape key — same accessibility pattern as our modals
     useEffect(() => {
         const handleKeyDown = (e) => { if (e.key === 'Escape') setIsOpen(false); };
         if (isOpen) document.addEventListener('keydown', handleKeyDown);
         return () => document.removeEventListener('keydown', handleKeyDown);
     }, [isOpen]);
 
-    // Find the current page's label to show next to the logo
     const currentPage = navItems.find(item =>
         item.to === '/' ? location.pathname === '/' : location.pathname.startsWith(item.to)
     );
@@ -85,7 +67,6 @@ const MobileTopBar = () => {
                 />
             </button>
 
-            {/* Dropdown menu */}
             {isOpen && (
                 <nav className="mobile-topbar__dropdown" role="navigation" aria-label="Main navigation">
                     <ul role="list">
@@ -107,7 +88,6 @@ const MobileTopBar = () => {
                 </nav>
             )}
 
-            {/* Backdrop — tapping it closes the dropdown, same pattern as modals */}
             {isOpen && (
                 <div
                     className="mobile-topbar__backdrop"
